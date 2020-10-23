@@ -133,8 +133,8 @@ with open("mtDNA.txt", 'r') as DNAfile, open('Ychr.txt','r') as Ychrfile, open("
                     perc_identity=Identical_NTs/len(seq1)*100
                     
                     Header_Seq=str(key1) +'\t'+str(key2) + '\t' + str(perc_identity) + '\t' +str(NTscoreTotal)   #a string, works as the header id, i.e. the two person's seqs that are compared
-                    Seqscore_list.append(Header_Seq)
-                    NTscoreTotal=0
+                Seqscore_list.append(Header_Seq)
+                NTscoreTotal=0
         #print(Seqscore_list)
         return Seqscore_list
 
@@ -183,13 +183,13 @@ with open("mtDNA.txt", 'r') as DNAfile, open('Ychr.txt','r') as Ychrfile, open("
                     perc_identity=Identical_NTs/len(seq1)*100
                     
                     Header_Seq=str(key1) +'\t'+str(key2) + '\t' + str(perc_identity) + '\t' +str(NTscoreTotal)   #a string, works as the header id, i.e. the two person's seqs that are compared
-                    Seqscore_list.append(Header_Seq)
-                    NTscoreTotal=0
+                Seqscore_list.append(Header_Seq)
+                NTscoreTotal=0
         #print(Seqscore_list)
         return Seqscore_list
     
     mtDNA_results=Scores_mtDNA(DNA_dict)
-    print(mtDNA_results)
+    #print(mtDNA_results)
     Ychrom_results=Scores_Ychr(Ychrom_dict)
     #print(mtDNA_results)
     #print(Ychrom_results)
