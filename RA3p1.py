@@ -10,7 +10,7 @@ subs matrix
 2.total alignment score is then a sum of all pairwise alig.scores
 - so e.g. if we have seqs a,b,c,d, then the sum S= Sab + Sac + Sad +Sbc + Sbd + 
 Scd 
-
+'''
 
 Then in the final file, do the scoring: transitions, transversions and 
 gaps have different penalties. 
