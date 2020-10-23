@@ -57,7 +57,7 @@ def make_tree(fh):
 
     plt.figure(figsize=(10, 7))
     dendrogram(linked,
-               orientation='top',
+               orientation='left',
                labels=labelList,
                distance_sort='descending',
                show_leaf_counts=True)
