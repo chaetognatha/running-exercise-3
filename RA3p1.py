@@ -11,14 +11,6 @@ subs matrix
 - so e.g. if we have seqs a,b,c,d, then the sum S= Sab + Sac + Sad +Sbc + Sbd + 
 Scd 
 '''
-
-Then in the final file, do the scoring: transitions, transversions and 
-gaps have different penalties. 
-
-output MSA results to a file looking like this
-SampleA SampleB IdentityScore Score
-A1 A2 55.2% 35
-A1 A3 51.3% 17
 #parsing the files into mtDNA fasta and Ychr fasta. Atm Im parsing them into 
 #text files as I cant open fastas on my laptop.
 with open('GeneticData.txt', 'r') as genefile, open('mtDNA.txt','w') as outputdna, open('Ychr.txt','w') as outputY:
@@ -41,7 +33,6 @@ with open('GeneticData.txt', 'r') as genefile, open('mtDNA.txt','w') as outputdn
                 seqmtDNA=next(genefile).rstrip()
                 
             elif lines.startswith("Y"):
-                
                 seqY=next(genefile).rstrip()
             elif "hemophilia" in lines:
                 continue
@@ -95,7 +86,7 @@ with open("mtDNA.txt", 'r') as DNAfile, open('Ychr.txt','r') as Ychrfile, open("
                                             #as the last id+seq ends with a seq
                                             #instead of the next id
     del lista2[:]
-    print(DNA_dict)
+    #print(DNA_dict)
     
     def Scores_mtDNA(DNA_dict):
         transition = ['AG', 'TC', 'GA', 'CT'] #the transition scores
@@ -141,7 +132,7 @@ with open("mtDNA.txt", 'r') as DNAfile, open('Ychr.txt','r') as Ychrfile, open("
                                 NTscoreTotal +=score
                     perc_identity=Identical_NTs/len(seq1)*100
                     
-                    Header_Seq=str(key1) +' -'+str(key2) + ' : ' + str(NTscoreTotal) + ' ' +str(perc_identity)   #a string, works as the header id, i.e. the two person's seqs that are compared
+                    Header_Seq=str(key1) +'\t'+str(key2) + '\t' + str(perc_identity) + '\t' +str(NTscoreTotal)   #a string, works as the header id, i.e. the two person's seqs that are compared
                     Seqscore_list.append(Header_Seq)
                     NTscoreTotal=0
         #print(Seqscore_list)
@@ -191,22 +182,46 @@ with open("mtDNA.txt", 'r') as DNAfile, open('Ychr.txt','r') as Ychrfile, open("
                                 NTscoreTotal +=score
                     perc_identity=Identical_NTs/len(seq1)*100
                     
-                    Header_Seq=str(key1) +' -'+str(key2) + ' : ' + str(NTscoreTotal) + ' ' +str(perc_identity)   #a string, works as the header id, i.e. the two person's seqs that are compared
+                    Header_Seq=str(key1) +'\t'+str(key2) + '\t' + str(perc_identity) + '\t' +str(NTscoreTotal)   #a string, works as the header id, i.e. the two person's seqs that are compared
                     Seqscore_list.append(Header_Seq)
                     NTscoreTotal=0
         #print(Seqscore_list)
         return Seqscore_list
     
     mtDNA_results=Scores_mtDNA(DNA_dict)
-    Ychrom_results=Scores_Ychr(Ychrom_dict)
     print(mtDNA_results)
-    print(Ychrom_results)
-    
-    def output_dict(my_dict, output_file):
+    Ychrom_results=Scores_Ychr(Ychrom_dict)
+    #print(mtDNA_results)
+    #print(Ychrom_results)
+
+    def output_dict(my_list, output_file):
         with open(output_file, "w") as out: #open a given file to write to
-            for key, value in my_dict: # unpack dictionary
-                print(f"{key} {value}", sep="\t", file=out)
+            label_set=set()
+            for line in my_list: # unpack dictionary
+                    names, the_rest=line.split(':')
+                    label_set.add(names)
+                    
+                    if names not in label_set:
+                        bothnames = names.replace('-','\t')
+                        print(bothnames, the_rest.replace('','\t'), sep="\t")
+                    
+                    else:
+                        continue
+               # print(names)
+
+                #print(label_set)
+                #scores, A=the_rest.split()
+               # print(A)
+                #Header="SampleA \t SampleB \t IdentityScore \t Score"
+               # perc_ident, A.split()
+                #Names=line.split(':')[0]
+               # label_sets.add(Names)
+                #Score=line.split('')[0]
+                #print(label_sets)
+                
+                #print(f"{}", sep="\t", file=out)
 
     
-    write_out_mtDNA=output_dict(mtDNA_results, "output_file_mtDNA.txt")
-    write_out_Ychr=output_dict(Ychrom_results, "output_file_Ychr.txt")
+    output_dict(mtDNA_results, "output_file_mtDNA.txt")
+    output_dict(Ychrom_results, "output_file_Ychr.txt")
+    
