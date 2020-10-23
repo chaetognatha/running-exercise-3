@@ -19,8 +19,6 @@ output MSA results to a file looking like this
 SampleA SampleB IdentityScore Score
 A1 A2 55.2% 35
 A1 A3 51.3% 17
-
-'''
 #parsing the files into mtDNA fasta and Ychr fasta. Atm Im parsing them into 
 #text files as I cant open fastas on my laptop.
 with open('GeneticData.txt', 'r') as genefile, open('mtDNA.txt','w') as outputdna, open('Ychr.txt','w') as outputY:
@@ -82,22 +80,22 @@ with open("mtDNA.txt", 'r') as DNAfile, open('Ychr.txt','r') as Ychrfile, open("
 
     Ychrom_dict={}
     lista2 = []
-    idheader = None
+    idheader2 = None
     for lines in Ychrfile:
         if lines.startswith('>'):
-            if idheader:
-                Ychrom_dict[idheader]=''.join(lista2) # adding the id to the dic, making the whole 3 lines into a one line, then deleting the lista content so we can start again
+            if idheader2:
+                Ychrom_dict[idheader2]=''.join(lista2) # adding the id to the dic, making the whole 3 lines into a one line, then deleting the lista content so we can start again
                 del lista2[:]
 
-            idheader = lines.strip().replace('>','')
+            idheader2 = lines.strip().replace('>','')
         else:
             lista2.append(lines.strip())
             #print(lista)
-    Ychrom_dict[idheader]=''.join(lista2)       # need to add this once more
+    Ychrom_dict[idheader2]=''.join(lista2)       # need to add this once more
                                             #as the last id+seq ends with a seq
                                             #instead of the next id
     del lista2[:]
-    #print(DNA_dict)
+    print(DNA_dict)
     
     def Scores_mtDNA(DNA_dict):
         transition = ['AG', 'TC', 'GA', 'CT'] #the transition scores
@@ -146,7 +144,7 @@ with open("mtDNA.txt", 'r') as DNAfile, open('Ychr.txt','r') as Ychrfile, open("
                     Header_Seq=str(key1) +' -'+str(key2) + ' : ' + str(NTscoreTotal) + ' ' +str(perc_identity)   #a string, works as the header id, i.e. the two person's seqs that are compared
                     Seqscore_list.append(Header_Seq)
                     NTscoreTotal=0
-        print(Seqscore_list)
+        #print(Seqscore_list)
         return Seqscore_list
 
     def Scores_Ychr(Ychrom_dict):
@@ -196,8 +194,19 @@ with open("mtDNA.txt", 'r') as DNAfile, open('Ychr.txt','r') as Ychrfile, open("
                     Header_Seq=str(key1) +' -'+str(key2) + ' : ' + str(NTscoreTotal) + ' ' +str(perc_identity)   #a string, works as the header id, i.e. the two person's seqs that are compared
                     Seqscore_list.append(Header_Seq)
                     NTscoreTotal=0
-        print(Seqscore_list)
-    return Seqscore_list
+        #print(Seqscore_list)
+        return Seqscore_list
     
     mtDNA_results=Scores_mtDNA(DNA_dict)
     Ychrom_results=Scores_Ychr(Ychrom_dict)
+    print(mtDNA_results)
+    print(Ychrom_results)
+    
+    def output_dict(my_dict, output_file):
+        with open(output_file, "w") as out: #open a given file to write to
+            for key, value in my_dict: # unpack dictionary
+                print(f"{key} {value}", sep="\t", file=out)
+
+    
+    write_out_mtDNA=output_dict(mtDNA_results, "output_file_mtDNA.txt")
+    write_out_Ychr=output_dict(Ychrom_results, "output_file_Ychr.txt")
