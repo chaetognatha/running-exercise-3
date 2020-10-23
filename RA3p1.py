@@ -86,7 +86,7 @@ with open("mtDNA.txt", 'r') as DNAfile, open('Ychr.txt','r') as Ychrfile, open("
                                             #as the last id+seq ends with a seq
                                             #instead of the next id
     del lista2[:]
-    #print(DNA_dict)
+    print(Ychrom_dict)
     
     def Scores_mtDNA(DNA_dict):
         transition = ['AG', 'TC', 'GA', 'CT'] #the transition scores
@@ -132,7 +132,7 @@ with open("mtDNA.txt", 'r') as DNAfile, open('Ychr.txt','r') as Ychrfile, open("
                                 NTscoreTotal +=score
                     perc_identity=Identical_NTs/len(seq1)*100
                     
-                    Header_Seq=str(key1) +'\t'+str(key2) + '\t' + str(perc_identity) + '\t' +str(NTscoreTotal)   #a string, works as the header id, i.e. the two person's seqs that are compared
+                    Header_Seq=str(key1) +' - '+str(key2) + ' : ' + str(perc_identity) +str(NTscoreTotal)   #a string, works as the header id, i.e. the two person's seqs that are compared
                 Seqscore_list.append(Header_Seq)
                 NTscoreTotal=0
         #print(Seqscore_list)
@@ -146,8 +146,8 @@ with open("mtDNA.txt", 'r') as DNAfile, open('Ychr.txt','r') as Ychrfile, open("
        
         checked_pair=[]
         
-        for key1, seq1 in DNA_dict.items():
-            for key2, seq2 in DNA_dict.items():
+        for key1, seq1 in Ychrom_dict.items():
+            for key2, seq2 in Ychrom_dict.items():
                 if key1==key2:
                     continue
                 if [key1,key2] not in checked_pair:     #so we only add the key1-key2 comb if its not already in the set, avoiding repeats
@@ -182,14 +182,14 @@ with open("mtDNA.txt", 'r') as DNAfile, open('Ychr.txt','r') as Ychrfile, open("
                                 NTscoreTotal +=score
                     perc_identity=Identical_NTs/len(seq1)*100
                     
-                    Header_Seq=str(key1) +'\t'+str(key2) + '\t' + str(perc_identity) + '\t' +str(NTscoreTotal)   #a string, works as the header id, i.e. the two person's seqs that are compared
+                    Header_Seq=str(key1) +' - '+str(key2) + ' : ' + str(perc_identity) +str(NTscoreTotal)   #a string, works as the header id, i.e. the two person's seqs that are compared
                 Seqscore_list.append(Header_Seq)
                 NTscoreTotal=0
         #print(Seqscore_list)
         return Seqscore_list
     
     mtDNA_results=Scores_mtDNA(DNA_dict)
-    #print(mtDNA_results)
+    
     Ychrom_results=Scores_Ychr(Ychrom_dict)
     #print(mtDNA_results)
     #print(Ychrom_results)
