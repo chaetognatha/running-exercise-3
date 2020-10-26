@@ -82,8 +82,8 @@ with open("mtDNA.txt", 'r') as DNAfile, open('Ychr.txt','r') as Ychrfile:
        
         checked_pair=[]
         
-        for key1, seq1 in DNA_dict.items():
-            for key2, seq2 in DNA_dict.items():
+        for key1, seq1 in score.items():
+            for key2, seq2 in score.items():
                 if key1==key2:
                     continue
                 if [key1,key2] not in checked_pair:     #so we only add the key1-key2 comb if its not already in the set, avoiding repeats
@@ -139,7 +139,7 @@ with open('output_mtDNA.txt','w') as mtDNAoutput, open('output_ychr.txt','w') as
          #print(line)
          mtDNAoutput.write(line)
      for line in Ychrom_results:
-         #print(line)
+         print(line)
          Ychroutput.write(line)
 
 
@@ -173,5 +173,3 @@ with open('output_mtDNA.txt','w') as mtDNAoutput, open('output_ychr.txt','w') as
     output_dict(mtDNA_results, "output_file_mtDNA.txt")
     output_dict(Ychrom_results, "output_file_Ychr.txt")
 '''
-
-
