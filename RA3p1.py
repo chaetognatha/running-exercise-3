@@ -1,6 +1,6 @@
 #parsing the files into mtDNA fasta and Ychr fasta. Atm Im parsing them into 
 #text files as I cant open fastas on my laptop.
-with open('GeneticData.txt', 'r') as genefile, open('mtDNA.txt','w') as outputdna, open('Ychr.txt','w') as outputY:
+with open('GeneticData.txt', 'r') as genefile, open('mtDNA.txt','w') as outputdna, open('Ychr.txt','w') as outputY: #Possible duplicate output
     #genefile=genefile.readlines()
     mtDNA_dict={}
     seq_listDNA=[]
