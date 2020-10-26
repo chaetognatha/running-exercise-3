@@ -1,4 +1,4 @@
-#parsing the files into mtDNA fasta and Ychr fasta. Atm Im parsing them into 
+#parsing the files into mtDNA fasta and Ychr fasta. Atm Im parsing them into
 #text files as I cant open fastas on my laptop.
 with open('GeneticData.txt', 'r') as genefile, open('mtDNA.txt','w') as outputdna, open('Ychr.txt','w') as outputY:
     #genefile=genefile.readlines()
@@ -13,10 +13,10 @@ with open('GeneticData.txt', 'r') as genefile, open('mtDNA.txt','w') as outputdn
         #print(lines)
         if lines.strip():
             #print(lines)    #strip the empty lines (\n)
-            
+
             if lines.startswith("mtDNA"):     #identify mtDNA, the seq is in the next line
                 seqmtDNA=next(genefile).rstrip()    #save the seq line into the variable, remove line changes
-                
+
             elif lines.startswith("Y"): #identify Y chromosome and repeat the process
                 seqY=next(genefile).rstrip()
             elif "hemophilia" in lines:     #if the line contains this word, then skip it and its seq
@@ -56,7 +56,7 @@ with open("mtDNA.txt", 'r') as DNAfile, open('Ychr.txt','r') as Ychrfile:
 
 #repeat the same procedure as for mtDNA dict to create a dict for Y chrom
     Ychrom_dict={}
-    lista2 = [] 
+    lista2 = []
     idheader2 = None
     for lines in Ychrfile:
         if lines.startswith('>'):
@@ -73,55 +73,54 @@ with open("mtDNA.txt", 'r') as DNAfile, open('Ychr.txt','r') as Ychrfile:
                                             #instead of the next id
     del lista2[:]
     #print(Ychrom_dict)
-    
+
     def Scores(scoring):
         transition = ['AG', 'TC', 'GA', 'CT'] #the transition scores
         NTscoreTotal=0     #a counter to count identical NTs. Done later on in the parallel iteration
         Seqscore_list=[]  #list for the total scores of NTs when comparing two seqs
         Identical_NTs=0   #for counting the identical ones once we start off the loops
-       
+
         checked_pair=[]
-        
+
         for key1, seq1 in scoring.items():
+            checked_pair.append(key1) #NEW: Add the id to the list of compared sequences
             for key2, seq2 in scoring.items():
-                if key1==key2:
-                    continue
-                if [key1,key2] not in checked_pair:     #so we only add the key1-key2 comb if its not already in the set, avoiding repeats
-                    checked_pair.append([key1,key2])
-                Identical_NTs=0
-    
-                for NTa,NTb in zip(seq1, seq2): #parallel iteration-in one loop calculates the overall score for the alignment
-    
-                    if NTa==NTb:
-                        if '-' in NTa and '-' in NTb:    #if empty positions in both NTs, then score is 0
-                            score=0
-                            #NTscoreTotal.append(score)
-                            NTscoreTotal +=score
-                            
-                        else:      #else the nucleotides pair up with content in them
-                            score=1   #score is 1 when the NTs match
-                            NTscoreTotal +=score   #add this to the total score
-                            Identical_NTs+=1   #keep count of identical NTs, identical gaps dont count
-                    
-                    else: #if the nucleotides are not the same
-                        if '-' in NTa or '-' in NTb: #if one sequence hNTas NTa gNTap when aligned to the other one the score is -1 
-                            score = -1
-                            NTscoreTotal +=score
-                        
-                        else: #if one of them is not a -, it creates a variable nt_sum that is the sum of the two nucleotides and compares them to the transition list
-                            NT_both = NTa + NTb
-                            if NT_both in transition: # transition:  score is -1
+                if key2 not in checked_pair:     #so we only add the key1-key2 comb if its not already in the set, avoiding repeats
+                    # Everything after the if is indented
+                    Identical_NTs=0
+
+                    for NTa,NTb in zip(seq1, seq2): #parallel iteration-in one loop calculates the overall score for the alignment
+
+                        if NTa==NTb:
+                            if '-' in NTa and '-' in NTb:    #if empty positions in both NTs, then score is 0
+                                score=0
+                                #NTscoreTotal.append(score)
+                                NTscoreTotal +=score
+
+                            else:      #else the nucleotides pair up with content in them
+                                score=1   #score is 1 when the NTs match
+                                NTscoreTotal +=score   #add this to the total score
+                                Identical_NTs+=1   #keep count of identical NTs, identical gaps dont count
+
+                        else: #if the nucleotides are not the same
+                            if '-' in NTa or '-' in NTb: #if one sequence hNTas NTa gNTap when aligned to the other one the score is -1
                                 score = -1
                                 NTscoreTotal +=score
-                            else: #if not transition, then transversion, which has a score of -2 that is added to NTscoreTotal
-                                score = -2
-                                NTscoreTotal +=score
-                    perc_identity=Identical_NTs/len(seq1)*100   #calculate perc.identity. Len
-                    perc_identity=round(perc_identity,2)
-                    
-                    Header_Seq = str(key1) + '\t' + str(key2) + '\t' + str(perc_identity) + '%\t' + str(NTscoreTotal) + '\n'   #a string, works as the header id, i.e. the two person's seqs that are compared
-                Seqscore_list.append(Header_Seq)
-                NTscoreTotal=0
+
+                            else: #if one of them is not a -, it creates a variable nt_sum that is the sum of the two nucleotides and compares them to the transition list
+                                NT_both = NTa + NTb
+                                if NT_both in transition: # transition:  score is -1
+                                    score = -1
+                                    NTscoreTotal +=score
+                                else: #if not transition, then transversion, which has a score of -2 that is added to NTscoreTotal
+                                    score = -2
+                                    NTscoreTotal +=score
+                        perc_identity=Identical_NTs/len(seq1)*100   #calculate perc.identity. Len
+                        perc_identity=round(perc_identity,2)
+
+                        Header_Seq = str(key1) + '\t' + str(key2) + '\t' + str(perc_identity) + '%\t' + str(NTscoreTotal) + '\n'   #a string, works as the header id, i.e. the two person's seqs that are compared
+                    Seqscore_list.append(Header_Seq)
+                    NTscoreTotal=0
         #print(Seqscore_list)
         return Seqscore_list
 
@@ -141,3 +140,4 @@ with open('output_mtDNA.txt','w', encoding='utf-8') as mtDNAoutput, open('output
      for line in Ychrom_results:
          #print(line)
          Ychroutput.write(line)
+
