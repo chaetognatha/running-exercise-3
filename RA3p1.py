@@ -1,16 +1,3 @@
-'''
-
-create fasta file for mtDNA and for Y chromosome
-
-Do the MSA, maybe save it into another file?
-For MSA we need to choose gap penalty model along with gap penalty values and 
-subs matrix
-0. Find the two seqs that give the highest alignment score
-1. look at each two seqs (e.g. a and b), calculate pairwise alignment score
-2.total alignment score is then a sum of all pairwise alig.scores
-- so e.g. if we have seqs a,b,c,d, then the sum S= Sab + Sac + Sad +Sbc + Sbd + 
-Scd 
-'''
 #parsing the files into mtDNA fasta and Ychr fasta. Atm Im parsing them into 
 #text files as I cant open fastas on my laptop.
 with open('GeneticData.txt', 'r') as genefile, open('mtDNA.txt','w') as outputdna, open('Ychr.txt','w') as outputY:
@@ -20,7 +7,6 @@ with open('GeneticData.txt', 'r') as genefile, open('mtDNA.txt','w') as outputdn
     Ychr_dict={}
     seq_listY=[]
     
-   # name=next(genefile)
     
     seqmtDNA=''
     seqY=''
@@ -86,7 +72,7 @@ with open("mtDNA.txt", 'r') as DNAfile, open('Ychr.txt','r') as Ychrfile, open("
                                             #as the last id+seq ends with a seq
                                             #instead of the next id
     del lista2[:]
-    print(Ychrom_dict)
+    #print(Ychrom_dict)
     
     def Scores_mtDNA(DNA_dict):
         transition = ['AG', 'TC', 'GA', 'CT'] #the transition scores
@@ -132,7 +118,7 @@ with open("mtDNA.txt", 'r') as DNAfile, open('Ychr.txt','r') as Ychrfile, open("
                                 NTscoreTotal +=score
                     perc_identity=Identical_NTs/len(seq1)*100
                     
-                    Header_Seq=str(key1) +' - '+str(key2) + ' : ' + str(perc_identity) +str(NTscoreTotal)   #a string, works as the header id, i.e. the two person's seqs that are compared
+                    Header_Seq=str(key1) +' - '+str(key2) + ' : ' + str(perc_identity)+'%' +str(NTscoreTotal)   #a string, works as the header id, i.e. the two person's seqs that are compared
                 Seqscore_list.append(Header_Seq)
                 NTscoreTotal=0
         #print(Seqscore_list)
@@ -182,7 +168,7 @@ with open("mtDNA.txt", 'r') as DNAfile, open('Ychr.txt','r') as Ychrfile, open("
                                 NTscoreTotal +=score
                     perc_identity=Identical_NTs/len(seq1)*100
                     
-                    Header_Seq=str(key1) +' - '+str(key2) + ' : ' + str(perc_identity) +str(NTscoreTotal)   #a string, works as the header id, i.e. the two person's seqs that are compared
+                    Header_Seq=str(key1) +' - '+str(key2) + ' : ' + str(perc_identity) +'%' +str(NTscoreTotal)   #a string, works as the header id, i.e. the two person's seqs that are compared
                 Seqscore_list.append(Header_Seq)
                 NTscoreTotal=0
         #print(Seqscore_list)
@@ -193,20 +179,23 @@ with open("mtDNA.txt", 'r') as DNAfile, open('Ychr.txt','r') as Ychrfile, open("
     Ychrom_results=Scores_Ychr(Ychrom_dict)
     #print(mtDNA_results)
     #print(Ychrom_results)
+ #   with open('output_mtDNA','w') as mtDNAoutput, open('output_ychr','w') as Ychroutput:
+  #      Header="sample1 \t sample2 \t Perc_identity \t Score"
+   #     mtDNAoutput.write(Header)
+    #    for line in mtDNA_results:
+     #       mtDNAoutput.write(line)
+
 
     def output_dict(my_list, output_file):
         with open(output_file, "w") as out: #open a given file to write to
             label_set=set()
+            
             for line in my_list: # unpack dictionary
                     names, the_rest=line.split(':')
                     label_set.add(names)
-                    
-                    if names not in label_set:
-                        bothnames = names.replace('-','\t')
-                        print(bothnames, the_rest.replace('','\t'), sep="\t")
-                    
-                    else:
-                        continue
+                    bothnames = names.replace('-','\t')
+                    print(bothnames, the_rest.replace(' ','\t').replace('-','\t'), sep="\t", file=out)
+
                # print(names)
 
                 #print(label_set)
@@ -221,7 +210,6 @@ with open("mtDNA.txt", 'r') as DNAfile, open('Ychr.txt','r') as Ychrfile, open("
                 
                 #print(f"{}", sep="\t", file=out)
 
-    
+
     output_dict(mtDNA_results, "output_file_mtDNA.txt")
     output_dict(Ychrom_results, "output_file_Ychr.txt")
-    
