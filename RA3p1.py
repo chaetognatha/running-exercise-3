@@ -74,7 +74,7 @@ with open("mtDNA.txt", 'r') as DNAfile, open('Ychr.txt','r') as Ychrfile:
     del lista2[:]
     #print(Ychrom_dict)
     
-    def Scores(DNA_dict):
+    def Scores(score):
         transition = ['AG', 'TC', 'GA', 'CT'] #the transition scores
         NTscoreTotal=0
         Seqscore_list=[]  #list for the total scores of NTs when comparing two seqs
@@ -126,7 +126,7 @@ with open("mtDNA.txt", 'r') as DNAfile, open('Ychr.txt','r') as Ychrfile:
         return Seqscore_list
 
 
-    
+
     mtDNA_results=Scores(DNA_dict)
     Ychrom_results=Scores(Ychrom_dict)
     #print(mtDNA_results)
@@ -134,14 +134,16 @@ with open("mtDNA.txt", 'r') as DNAfile, open('Ychr.txt','r') as Ychrfile:
 with open('output_mtDNA.txt','w') as mtDNAoutput, open('output_ychr.txt','w') as Ychroutput:
      Header="sample1 \t sample2 \t Perc_identity \t Score \n"
      mtDNAoutput.write(Header)
+     Ychroutput.write(Header)
      for line in mtDNA_results:
-         print(line)
+         #print(line)
          mtDNAoutput.write(line)
-            
-#%%
-    
-    
+     for line in Ychrom_results:
+         #print(line)
+         Ychroutput.write(line)
 
+
+'''
     def output_dict(my_list, output_file):
         with open(output_file, "w") as out: #open a given file to write to
             label_set=set()
@@ -151,4 +153,25 @@ with open('output_mtDNA.txt','w') as mtDNAoutput, open('output_ychr.txt','w') as
                     label_set.add(names)
                     bothnames = names.replace('-','\t')
                     print(bothnames, the_rest.replace(' ','\t').replace('-','\t'), sep="\t", file=out)
+
+
+               # print(names)
+
+                #print(label_set)
+                #scores, A=the_rest.split()
+               # print(A)
+                #Header="SampleA \t SampleB \t IdentityScore \t Score"
+               # perc_ident, A.split()
+                #Names=line.split(':')[0]
+               # label_sets.add(Names)
+                #Score=line.split('')[0]
+                #print(label_sets)
+                
+                #print(f"{}", sep="\t", file=out)
+
+
+    output_dict(mtDNA_results, "output_file_mtDNA.txt")
+    output_dict(Ychrom_results, "output_file_Ychr.txt")
+'''
+
 
