@@ -1,6 +1,6 @@
 #parsing the files into mtDNA fasta and Ychr fasta. Atm Im parsing them into 
 #text files as I cant open fastas on my laptop.
-with open('GeneticData.txt', 'r') as genefile, open('mtDNA.txt','w') as outputdna, open('Ychr.txt','w') as outputY: #Possible duplicate output
+with open('GeneticData.txt', 'r') as genefile, open('mtDNA.txt','w') as outputdna, open('Ychr.txt','w') as outputY: 
     #genefile=genefile.readlines()
     mtDNA_dict={}
     seq_listDNA=[]
@@ -25,16 +25,16 @@ with open('GeneticData.txt', 'r') as genefile, open('mtDNA.txt','w') as outputdn
             else:           #by this point we are on the last line of the indicidual
                 name=lines
                 if seqmtDNA:    #true as lomg as the line isnt empty line
-                    outputdna.write('>' + name + seqmtDNA +'\n') # NEWLINE ADDED
+                    outputdna.write('>' + name + seqmtDNA +'\n')
                    # name='' #name emptied
                 if seqY:
-                    outputY.write('>' + name + seqY + '\n') # NEWLINE ADDED
+                    outputY.write('>' + name + seqY + '\n')
 
 #get seq1 and compare its every NT to the ones in the equivalent pos in seq2,3,4...
 #do scoring based on this
 #we have the dictionary with the names as keys and values as seqs, no align. make single dics with one key, one value
 
-with open("mtDNA.txt", 'r') as DNAfile, open('Ychr.txt','r') as Ychrfile, open("scores.txt","w"):
+with open("mtDNA.txt", 'r') as DNAfile, open('Ychr.txt','r') as Ychrfile, open("scores.txt","w"): #writing to file?
     
     DNA_dict={}
     lista1 = []
@@ -124,7 +124,7 @@ with open("mtDNA.txt", 'r') as DNAfile, open('Ychr.txt','r') as Ychrfile, open("
         #print(Seqscore_list)
         return Seqscore_list
 
-    def Scores_Ychr(Ychrom_dict):
+    def Scores_Ychr(Ychrom_dict): 
         transition = ['AG', 'TC', 'GA', 'CT'] #the transition scores
         NTscoreTotal=0
         Seqscore_list=[]  #list for the total scores of NTs when comparing two seqs
