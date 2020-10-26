@@ -74,7 +74,7 @@ with open("mtDNA.txt", 'r') as DNAfile, open('Ychr.txt','r') as Ychrfile:
     del lista2[:]
     #print(Ychrom_dict)
     
-    def Scores(score):
+    def Scores(scoring):
         transition = ['AG', 'TC', 'GA', 'CT'] #the transition scores
         NTscoreTotal=0
         Seqscore_list=[]  #list for the total scores of NTs when comparing two seqs
@@ -82,8 +82,8 @@ with open("mtDNA.txt", 'r') as DNAfile, open('Ychr.txt','r') as Ychrfile:
        
         checked_pair=[]
         
-        for key1, seq1 in score.items():
-            for key2, seq2 in score.items():
+        for key1, seq1 in scoring.items():
+            for key2, seq2 in scoring.items():
                 if key1==key2:
                     continue
                 if [key1,key2] not in checked_pair:     #so we only add the key1-key2 comb if its not already in the set, avoiding repeats
