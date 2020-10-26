@@ -118,7 +118,7 @@ with open("mtDNA.txt", 'r') as DNAfile, open('Ychr.txt','r') as Ychrfile, open("
                                 NTscoreTotal +=score
                     perc_identity=Identical_NTs/len(seq1)*100
                     
-                    Header_Seq=str(key1) +' - '+str(key2) + ' : ' + str(perc_identity)+'%' +str(NTscoreTotal)   #a string, works as the header id, i.e. the two person's seqs that are compared
+                    Header_Seq=str(key1) + str(key2) +  str(perc_identity)+'%' + str(NTscoreTotal)   #a string, works as the header id, i.e. the two person's seqs that are compared. We do not want the : and -
                 Seqscore_list.append(Header_Seq)
                 NTscoreTotal=0
         #print(Seqscore_list)
@@ -168,7 +168,7 @@ with open("mtDNA.txt", 'r') as DNAfile, open('Ychr.txt','r') as Ychrfile, open("
                                 NTscoreTotal +=score
                     perc_identity=Identical_NTs/len(seq1)*100
                     
-                    Header_Seq=str(key1) +' - '+str(key2) + ' : ' + str(perc_identity) +'%' +str(NTscoreTotal)   #a string, works as the header id, i.e. the two person's seqs that are compared
+                    Header_Seq=str(key1) + str(key2) + str(perc_identity) +'%' +str(NTscoreTotal)   #a string, works as the header id, i.e. the two person's seqs that are compared. We do not want the : and -
                 Seqscore_list.append(Header_Seq)
                 NTscoreTotal=0
         #print(Seqscore_list)
