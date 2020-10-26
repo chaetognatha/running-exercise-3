@@ -25,10 +25,10 @@ with open('GeneticData.txt', 'r') as genefile, open('mtDNA.txt','w') as outputdn
             else:           #by this point we are on the last line of the indicidual
                 name=lines
                 if seqmtDNA:    #true as lomg as the line isnt empty line
-                    outputdna.write('>' + name + seqmtDNA +'\n')
+                    outputdna.write('>' + name + seqmtDNA +'\n') # NEWLINE ADDED
                    # name='' #name emptied
                 if seqY:
-                    outputY.write('>' + name + seqY + '\n')
+                    outputY.write('>' + name + seqY + '\n') # NEWLINE ADDED
 
 #get seq1 and compare its every NT to the ones in the equivalent pos in seq2,3,4...
 #do scoring based on this
