@@ -26,9 +26,9 @@ Created on Wed Oct 21 09:44:39 2020
 
 import sys
 
-scoring_file = sys.argv[1]
-idn_output = sys.argv[2]
-align_output = sys.argv[3]
+scoring_file = "mt_test.txt"
+idn_output = "mt_out_identity"
+align_output = "mt_out_align"
 
 two_ids_identity_dict = {} #a dictionary for the identity scores with two ids
 two_ids_alignment_dict = {} #a dictionary for the alignment scores with two ids
@@ -101,10 +101,6 @@ print(identity_dist)
 alignment_dist = pd.DataFrame(squareform(pdist(DF_var_alignment.iloc[:, 1:])), columns=id_list, index=id_list)
 print(alignment_dist)
 
-with open(idn_output, 'w') as identity_output: #I print the identity distance matrix output to the correct file
-    print(identity_dist, file=identity_output)
-
-with open(align_output, 'w') as alignment_output: #I print the alignment distance matrix output to the correct file
-    print(alignment_dist, file=alignment_output)
-
+identity_dist.to_csv(idn_output, sep="\t")
+alignment_dist.to_csv(align_output, sep="\t")
 

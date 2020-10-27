@@ -24,7 +24,7 @@ import numpy as np
 from scipy.cluster.hierarchy import dendrogram, linkage
 from scipy.spatial.distance import pdist
 
-inputs = ["mtDNAtable1","Ychrtable1","mtDNAtable2","Ychrtable2"]
+inputs = ["mt_out_identity","mt_out_align","y_out_identity","y_out_align"]
 
 
 def matrix_parser(fh):
@@ -33,10 +33,10 @@ def matrix_parser(fh):
     with open(fh) as f:
         for line in f:
             if my_counter == 0:
-                names = list(line.strip("\n").split())
+                names = list(line.strip("\n").split("\t"))
                 my_counter += 1
             else:
-                row = list(line.strip("\n").split())
+                row = list(line.strip("\n").split("\t"))
                 m.append(row[1:])
     matrix = np.array(m, dtype=float)
     return names, matrix
@@ -53,19 +53,22 @@ def make_tree(fh):
     """
     linked = linkage(distance_matrix, 'single')
 
-    labelList = names
+    labelList = names[1:]
 
-    plt.figure(figsize=(10, 7))
+    plt.figure(figsize=(25, 15))
     dendrogram(linked,
                orientation='left',
                labels=labelList,
                distance_sort='descending',
                show_leaf_counts=True)
-    plt.show()
+    #plt.show()
+    thing = fh + ".png"
+    plt.savefig(thing)
 
 
 # make_tree("julia_out.txt")
 def main():
+    counter = 0
     for f in inputs:
         make_tree(f)
 main()
